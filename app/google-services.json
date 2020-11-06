@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "204770709819",
+    "firebase_url": "https://pho-sho.firebaseio.com",
+    "project_id": "pho-sho",
+    "storage_bucket": "pho-sho.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:204770709819:android:eb0686f5f5c3a9a6c9a71e",
+        "android_client_info": {
+          "package_name": "com.example.phosho"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "204770709819-cvepra4thps2a56vqbi8u0uc40obolu5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDER533AvyHeAAT5dNJ-eD66LQFagPbNI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "204770709819-cvepra4thps2a56vqbi8u0uc40obolu5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Pho Sho</string>
+    <string name="user_name">Example User</string>
+    <string name="text_myProfile">My Profile</string>
+    <string name="text_search">Search</string>
+    <string name="text_notifications">Notifications</string>
+    <string name="text_updates">Updates</string>
+    <string name="text_settings">Settings</string>
+</resources>
