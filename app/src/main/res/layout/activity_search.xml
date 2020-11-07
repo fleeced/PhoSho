@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="40dp"
     tools:context=".SearchActivity">
 
     <TextView
@@ -36,12 +37,19 @@
         android:textSize="16sp" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/button_search"
         android:layout_width="49dp"
         android:layout_height="50dp"
         android:layout_alignTop="@+id/search_field"
         android:layout_marginStart="20dp"
         android:layout_toEndOf="@+id/search_field"
         app:srcCompat="@drawable/ic_search" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list_results"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/search_field"
+        android:layout_marginTop="50dp" />
 
 </RelativeLayout>
