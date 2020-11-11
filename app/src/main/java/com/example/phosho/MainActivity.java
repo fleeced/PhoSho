@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void openNotificationsActivity() {
-        Intent intent = new Intent(this, NotificationsActivity.class);
+        Intent intent = new Intent(this, PostActivity.class);
         startActivity(intent);
     }
     public void openSearchActivity() {

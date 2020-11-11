@@ -9,8 +9,7 @@
     <Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:targetApi="lollipop">
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="match_parent"
