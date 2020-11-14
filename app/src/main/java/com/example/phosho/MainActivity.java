@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.phosho.Fragment.SearchFragment;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -136,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void openSettingsActivity() {
-        Intent intent = new Intent(this, SearchActivity.class);
+        Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
 

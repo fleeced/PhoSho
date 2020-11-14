@@ -9,7 +9,8 @@
     <Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        tools:targetApi="lollipop">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -52,6 +53,7 @@
             android:src="@mipmap/ic_launcher"
             android:id="@+id/image_added" />
 
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -61,5 +63,10 @@
 
     </LinearLayout>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose Image"
+        android:id="@+id/button_choose" />
 
 </LinearLayout>

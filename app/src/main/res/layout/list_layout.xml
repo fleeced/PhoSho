@@ -8,31 +8,49 @@
         android:id="@+id/imageview_profile"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
         android:src="@drawable/profile_pic" />
 
-    <TextView
-        android:id="@+id/username"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_toEndOf="@+id/imageview_profile"
-        android:text="@string/user_name"
-        android:textColor="#555555"
-        android:textSize="16sp" />
+        android:layout_toEndOf="@id/imageview_profile"
+        android:layout_marginStart="5dp"
+        android:orientation="vertical"
+        android:layout_centerVertical="true">
 
-    <TextView
-        android:id="@+id/search_description"
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:text="@string/user_name"
+            android:textColor="#555555"
+            android:textStyle="bold"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/search_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
+            android:text="Description"
+            android:textColor="#999999" />
+
+    </LinearLayout>
+
+    <Button
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/username"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="30dp"
-        android:layout_toEndOf="@+id/imageview_profile"
-        android:text="TextView"
-        android:textColor="#999999" />
+        android:layout_height="30dp"
+        android:id="@+id/button_follow"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone" />
+
 </RelativeLayout>

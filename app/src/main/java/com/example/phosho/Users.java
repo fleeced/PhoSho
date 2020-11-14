@@ -2,10 +2,9 @@ package com.example.phosho;
 
 public class Users {
 
-    public String name, image, status;
+    public String name, image, description;
 
     public Users() {
-
     }
 
     public String getName() {
@@ -24,17 +23,17 @@ public class Users {
         this.image = image;
     }
 
-    public String getStatus() {
-        return status;
+    public String getDescription() {
+        return description;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public Users(String name, String image, String status) {
+    public Users(String name, String image, String description) {
         this.name = name;
         this.image = image;
-        this.status = status;
+        this.description = description;
     }
 }

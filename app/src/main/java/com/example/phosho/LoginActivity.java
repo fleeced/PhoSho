@@ -4,12 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
@@ -32,12 +34,17 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
 
     private SignInButton signinButton;
     private GoogleSignInClient mGoogleSignInClient;
-    //private GoogleApiClient mGoogleApiClient;
+    private DatabaseReference reference;
+    private ProgressDialog pd;
     private FirebaseAuth mAuth;
     private static final String TAG = "LoginActivity";
     private static final int RC_SIGN_IN = 1;
@@ -85,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
 
             if(task.isSuccessful()) {
-                Toast.makeText(this, "Google sign in sucessful",
+                Toast.makeText(this, "Google sign in successful",
                         Toast.LENGTH_LONG).show();
                 try {
                     GoogleSignInAccount googleSignInAccount = task.getResult(ApiException.class);
@@ -96,9 +103,33 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful()) {
+                                    FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                                    String userid = firebaseUser.getUid();
+
+                                    reference = FirebaseDatabase.getInstance().getReference().child("Users").child(userid);
+
+                                    HashMap<String, Object> hashMap = new HashMap<>();
+                                    hashMap.put("id", userid);
+                                    hashMap.put("fullname", firebaseUser.getDisplayName());
+                                    hashMap.put("bio", "");
+                                    hashMap.put("imageurl", "https://firebasestorage.googleapis.com/v0/b/pho-sho.appspot.com/o/placeholder.png?alt=media&token=e7077d59-8e24-4a2e-915c-3bf8ebe668ff");
+
+                                    reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if(task.isSuccessful()) {
+                                                pd.dismiss();
+                                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                startActivity(intent);
+                                            }
+                                        }
+                                    });
+
                                     startActivity(new Intent(LoginActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                                     Toast.makeText(getApplicationContext(), "Firebase authentication successful", Toast.LENGTH_SHORT).show();
                                 } else {
+                                    pd.dismiss();
                                     Toast.makeText(getApplicationContext(), "Authentication failed" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
