@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -39,6 +40,9 @@ public class PostActivity extends AppCompatActivity {
     private String myUrl = "";
     private StorageTask uploadTask;
     private StorageReference mStorageReference;
+    private DatabaseReference reference;
+    private FirebaseAuth mAuth;
+
     private Button choose;
 
     ImageView close, image;
@@ -76,7 +80,10 @@ public class PostActivity extends AppCompatActivity {
         post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fileUploader();
+                if(uploadTask != null && uploadTask.isInProgress()) {
+                    Toast.makeText(PostActivity.this, "Upload in progress... ", Toast.LENGTH_LONG).show();
+                } else
+                    fileUploader();
             }
         });
 
@@ -91,20 +98,19 @@ public class PostActivity extends AppCompatActivity {
     private void fileUploader() {
         StorageReference storageReference = mStorageReference.child(System.currentTimeMillis()+"."+getExtension(imageUri));
 
-        storageReference.putFile(imageUri)
+        uploadTask = storageReference.putFile(imageUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // Get a URL to the uploaded content
-                        //Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                        Toast.makeText(PostActivity.this, "Image Uploaded Successfully", Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(PostActivity.this, MainActivity.class));
+                        finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception exception) {
                         // Handle unsuccessful uploads
-                        // ...
+                        Toast.makeText(PostActivity.this, "Failed!", Toast.LENGTH_LONG).show();
                     }
                 });
     }

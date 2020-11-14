@@ -33,12 +33,10 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout profile, updates, notifications, search, settings;
     private ImageView profilePic;
     private TextView name;
-    private Button signoutButton;
+    private Button signoutButton, postButton;
 
     private GoogleSignInClient mGoogleSignInClient;
-    private String TAG = "MainActivity";
     private FirebaseAuth mAuth;
-    private int RC_SIGN_IN = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
 
         profilePic = findViewById(R.id.imageview_profile);
         name = findViewById(R.id.username);
-        signoutButton = findViewById(R.id.button_signout);
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = mAuth.getCurrentUser();
@@ -63,22 +60,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         mGoogleSignInClient = GoogleSignIn.getClient(MainActivity.this, GoogleSignInOptions.DEFAULT_SIGN_IN);
-
-        signoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mGoogleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()) {
-                            mAuth.signOut();
-                            Toast.makeText(getApplicationContext(), "Logout successful", Toast.LENGTH_SHORT).show();
-                            finish();
-                        }
-                    }
-                });
-            }
-        });
     }
 
     public void getActivities() {
@@ -118,6 +99,29 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        signoutButton = findViewById(R.id.button_signout);
+        signoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mGoogleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()) {
+                            mAuth.signOut();
+                            Toast.makeText(getApplicationContext(), "Logout successful", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    }
+                });
+            }
+        });
+        postButton = findViewById(R.id.button_post);
+        postButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                postActivity();
+            }
+        });
     }
 
     public void openProfileActivity() {
@@ -129,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void openNotificationsActivity() {
-        Intent intent = new Intent(this, PostActivity.class);
+        Intent intent = new Intent(this, NotificationsActivity.class);
         startActivity(intent);
     }
     public void openSearchActivity() {
@@ -138,6 +142,10 @@ public class MainActivity extends AppCompatActivity {
     }
     public void openSettingsActivity() {
         Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
+    public void postActivity() {
+        Intent intent = new Intent(this, PostActivity.class);
         startActivity(intent);
     }
 

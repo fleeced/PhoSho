@@ -15,7 +15,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PhoSho">
-        <activity android:name=".RegisterActivity" />
         <activity android:name=".PostActivity" />
         <activity android:name=".UpdatesActivity" />
         <activity android:name=".SettingsActivity" />
