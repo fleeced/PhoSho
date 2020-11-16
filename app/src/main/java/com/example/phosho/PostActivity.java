@@ -43,11 +43,11 @@ public class PostActivity extends AppCompatActivity {
     private DatabaseReference reference;
     private FirebaseAuth mAuth;
 
-    private Button choose;
+    Post post;
 
+    Button choose;
     ImageView close, image;
-    TextView post;
-    EditText description;
+    TextView submit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +56,10 @@ public class PostActivity extends AppCompatActivity {
 
         close = findViewById(R.id.close);
         image = findViewById(R.id.image_added);
-        post = findViewById(R.id.text_post);
-        description = findViewById(R.id.description);
+        submit = findViewById(R.id.text_post);
         choose = findViewById(R.id.button_choose);
+
+        post = new Post();
 
         mStorageReference = FirebaseStorage.getInstance().getReference("Posts");
 
@@ -77,10 +78,10 @@ public class PostActivity extends AppCompatActivity {
             }
         });
 
-        post.setOnClickListener(new View.OnClickListener() {
+        submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(uploadTask != null && uploadTask.isInProgress()) {
+                if (uploadTask != null && uploadTask.isInProgress()) {
                     Toast.makeText(PostActivity.this, "Upload in progress... ", Toast.LENGTH_LONG).show();
                 } else
                     fileUploader();
@@ -96,13 +97,13 @@ public class PostActivity extends AppCompatActivity {
     }
 
     private void fileUploader() {
-        StorageReference storageReference = mStorageReference.child(System.currentTimeMillis()+"."+getExtension(imageUri));
+        StorageReference storageReference = mStorageReference.child(System.currentTimeMillis() + "." + getExtension(imageUri));
 
         uploadTask = storageReference.putFile(imageUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        startActivity(new Intent(PostActivity.this, MainActivity.class));
+                        postToDatabase();
                         finish();
                     }
                 })
@@ -113,6 +114,31 @@ public class PostActivity extends AppCompatActivity {
                         Toast.makeText(PostActivity.this, "Failed!", Toast.LENGTH_LONG).show();
                     }
                 });
+    }
+
+    private void postToDatabase() {
+       /*
+        Uri downloadUri = (Uri) uploadTask.getResult();
+        myUrl = downloadUri.toString();
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("postid", postid);
+        hashMap.put("postimage", myUrl);
+        hashMap.put("publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+        reference.child(postid).setValue(hashMap);
+*/
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts");
+        String postid = reference.push().getKey();
+
+        post.setPostid(postid);
+        //post.setMyUrl(download_url.toString());
+        post.setUserid(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+        reference.push().setValue(post);
+
+        startActivity(new Intent(PostActivity.this, MainActivity.class));
     }
 
     private void fileChooser() {
@@ -126,7 +152,7 @@ public class PostActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode==1 && resultCode==RESULT_OK && data!=null && data.getData()!=null) {
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
             imageUri = data.getData();
             image.setImageURI(imageUri);
         } else {

@@ -128,7 +128,7 @@ public class LoginActivity extends AppCompatActivity {
                                     startActivity(new Intent(LoginActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                                     Toast.makeText(getApplicationContext(), "Firebase authentication successful", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    pd.dismiss();
+                                    //pd.dismiss();
                                     Toast.makeText(getApplicationContext(), "Authentication failed" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
