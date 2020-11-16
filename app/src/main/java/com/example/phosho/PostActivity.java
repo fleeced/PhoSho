@@ -41,7 +41,6 @@ public class PostActivity extends AppCompatActivity {
     private StorageTask uploadTask;
     private StorageReference mStorageReference;
     private DatabaseReference reference;
-    private FirebaseAuth mAuth;
 
     Post post;
 
@@ -63,6 +62,11 @@ public class PostActivity extends AppCompatActivity {
 
         mStorageReference = FirebaseStorage.getInstance().getReference("Posts");
 
+        getActivities();
+
+    }
+
+    private void getActivities() {
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,9 +89,9 @@ public class PostActivity extends AppCompatActivity {
                     Toast.makeText(PostActivity.this, "Upload in progress... ", Toast.LENGTH_LONG).show();
                 } else
                     fileUploader();
+                //startActivity(new Intent(PostActivity.this, MainActivity.class));
             }
         });
-
     }
 
     private String getExtension(Uri uri) {
@@ -103,7 +107,6 @@ public class PostActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        postToDatabase();
                         finish();
                     }
                 })
@@ -116,34 +119,9 @@ public class PostActivity extends AppCompatActivity {
                 });
     }
 
-    private void postToDatabase() {
-       /*
-        Uri downloadUri = (Uri) uploadTask.getResult();
-        myUrl = downloadUri.toString();
-
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("postid", postid);
-        hashMap.put("postimage", myUrl);
-        hashMap.put("publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
-
-        reference.child(postid).setValue(hashMap);
-*/
-
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts");
-        String postid = reference.push().getKey();
-
-        post.setPostid(postid);
-        //post.setMyUrl(download_url.toString());
-        post.setUserid(FirebaseAuth.getInstance().getCurrentUser().getUid());
-
-        reference.push().setValue(post);
-
-        startActivity(new Intent(PostActivity.this, MainActivity.class));
-    }
-
     private void fileChooser() {
         Intent intent = new Intent();
-        intent.setType("image/^");
+        intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, 1);
     }
@@ -154,6 +132,36 @@ public class PostActivity extends AppCompatActivity {
 
         if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
             imageUri = data.getData();
+
+            StorageReference imageName = mStorageReference.child("image"+imageUri.getLastPathSegment());
+
+            imageName.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    imageName.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            String userid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                            DatabaseReference imagestore = FirebaseDatabase.getInstance().getReference().child("Users").child(userid).child("Posts");
+                            String postid = imagestore.push().getKey();
+                            imagestore = imagestore.child(postid);
+
+                            HashMap<String, String> hashMap = new HashMap<>();
+                            hashMap.put("postid", postid);
+                            hashMap.put("imageurl", String.valueOf(uri));
+
+                            imagestore.setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(PostActivity.this, "Complete", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+
             image.setImageURI(imageUri);
         } else {
             Toast.makeText(this, "Something went wrong!", Toast.LENGTH_SHORT).show();

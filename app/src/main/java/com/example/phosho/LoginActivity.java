@@ -44,9 +44,7 @@ public class LoginActivity extends AppCompatActivity {
     private SignInButton signinButton;
     private GoogleSignInClient mGoogleSignInClient;
     private DatabaseReference reference;
-    private ProgressDialog pd;
     private FirebaseAuth mAuth;
-    private static final String TAG = "LoginActivity";
     private static final int RC_SIGN_IN = 1;
 
     @Override
@@ -105,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
                                     FirebaseUser firebaseUser = mAuth.getCurrentUser();
                                     String userid = firebaseUser.getUid();
 
-                                    reference = FirebaseDatabase.getInstance().getReference().child("Users").child(userid);
+                                    reference = FirebaseDatabase.getInstance().getReference().child("Users").child(userid).child("Info");
 
                                     HashMap<String, Object> hashMap = new HashMap<>();
                                     hashMap.put("id", userid);
@@ -117,7 +115,6 @@ public class LoginActivity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()) {
-                                                //pd.dismiss();
                                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                                 startActivity(intent);
@@ -128,7 +125,6 @@ public class LoginActivity extends AppCompatActivity {
                                     startActivity(new Intent(LoginActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                                     Toast.makeText(getApplicationContext(), "Firebase authentication successful", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    //pd.dismiss();
                                     Toast.makeText(getApplicationContext(), "Authentication failed" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
