@@ -33,14 +33,13 @@ import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class PostActivity extends AppCompatActivity {
 
     private Uri imageUri;
-    private String myUrl = "";
     private StorageTask uploadTask;
     private StorageReference mStorageReference;
-    private DatabaseReference reference;
 
     Post post;
 
@@ -89,7 +88,6 @@ public class PostActivity extends AppCompatActivity {
                     Toast.makeText(PostActivity.this, "Upload in progress... ", Toast.LENGTH_LONG).show();
                 } else
                     fileUploader();
-                //startActivity(new Intent(PostActivity.this, MainActivity.class));
             }
         });
     }
@@ -141,10 +139,11 @@ public class PostActivity extends AppCompatActivity {
                     imageName.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            String userid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                            String userid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
 
                             DatabaseReference imagestore = FirebaseDatabase.getInstance().getReference().child("Users").child(userid).child("Posts");
                             String postid = imagestore.push().getKey();
+                            assert postid != null;
                             imagestore = imagestore.child(postid);
 
                             HashMap<String, String> hashMap = new HashMap<>();

@@ -38,10 +38,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private SignInButton signinButton;
+    SignInButton signinButton;
     private GoogleSignInClient mGoogleSignInClient;
     private DatabaseReference reference;
     private FirebaseAuth mAuth;
@@ -101,6 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful()) {
                                     FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                                    assert firebaseUser != null;
                                     String userid = firebaseUser.getUid();
 
                                     reference = FirebaseDatabase.getInstance().getReference().child("Users").child(userid).child("Info");
@@ -124,9 +126,8 @@ public class LoginActivity extends AppCompatActivity {
 
                                     startActivity(new Intent(LoginActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                                     Toast.makeText(getApplicationContext(), "Firebase authentication successful", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "Authentication failed" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                                }
+                                } else
+                                    Toast.makeText(getApplicationContext(), "Authentication failed" + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }

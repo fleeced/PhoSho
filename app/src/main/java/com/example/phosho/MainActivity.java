@@ -30,10 +30,10 @@ import static androidx.core.os.HandlerCompat.postDelayed;
 
 public class MainActivity extends AppCompatActivity {
 
-    private LinearLayout profile, updates, notifications, search, settings;
-    private ImageView profilePic;
-    private TextView name;
-    private Button signoutButton, postButton;
+    LinearLayout profile, updates, notifications, search, settings;
+    ImageView profilePic;
+    TextView name;
+    Button signoutButton, postButton;
 
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
