@@ -146,7 +146,7 @@ public class SearchActivity extends AppCompatActivity {
             Glide.with(getApplicationContext()).load(image).into(user_image);
         }
     }
-/*
+
     @Override
     public void onStart() {
         super.onStart();
@@ -158,7 +158,5 @@ public class SearchActivity extends AppCompatActivity {
         super.onStop();
         firebaseRecyclerAdapter.stopListening();
     }
-
- */
 
 }

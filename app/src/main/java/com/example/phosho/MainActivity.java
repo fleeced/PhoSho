@@ -2,6 +2,7 @@ package com.example.phosho;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView profilePic;
     TextView name;
     Button signoutButton, postButton;
+    Fragment selectedFragment;
 
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
@@ -88,7 +90,8 @@ public class MainActivity extends AppCompatActivity {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openSearchActivity();
+                //openSearchActivity();
+                selectedFragment = new SearchFragment();
             }
         });
         settings = (LinearLayout) findViewById(R.id.menu_settings);

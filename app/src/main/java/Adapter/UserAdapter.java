@@ -71,7 +71,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 editor.putString("profileid", firebaseUser.getUid());
                 editor.apply();
 
-               // ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileFragment()).commit();
+                //((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.recycler_view, new ProfileFragment()).commit();
             }
         });
 
@@ -116,13 +116,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                /*
-                if(dataSnapshot.child(userid).exists())
+
+                if(snapshot.child(userid).exists())
                     button.setText("following");
                 else
                     button.setText("follow");
-
-                 */
             }
 
             @Override

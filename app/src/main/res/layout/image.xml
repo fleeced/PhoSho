@@ -23,7 +23,6 @@
                 android:layout_height="200dp"
                 android:scaleType="centerCrop"
                 android:adjustViewBounds="true"
-                android:src="@drawable/monkey"
                 android:padding="2dp" />
 
         </LinearLayout>
@@ -36,10 +35,10 @@
                 android:id="@+id/titleView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Jonah Duckworth"
+                android:text="Title"
                 android:paddingStart="10dp"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="30sp" />
 
         </LinearLayout>
     </LinearLayout>
