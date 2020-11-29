@@ -142,6 +142,7 @@ public class PostActivity extends AppCompatActivity {
                             String userid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
 
                             DatabaseReference imagestore = FirebaseDatabase.getInstance().getReference().child("Users").child(userid).child("Posts");
+
                             String postid = imagestore.push().getKey();
                             assert postid != null;
                             imagestore = imagestore.child(postid);
@@ -150,7 +151,15 @@ public class PostActivity extends AppCompatActivity {
                             hashMap.put("postid", postid);
                             hashMap.put("imageurl", String.valueOf(uri));
 
-                            imagestore.setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            imagestore.setValue(hashMap);
+
+                            DatabaseReference imagestore2 = FirebaseDatabase.getInstance().getReference().child("Timeline");
+
+                            HashMap<String, String> hashMap2 = new HashMap<>();
+                            hashMap2.put("postid", postid);
+                            hashMap2.put("imageurl", String.valueOf(uri));
+
+                            imagestore2.setValue(hashMap2).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     Toast.makeText(PostActivity.this, "Complete", Toast.LENGTH_SHORT).show();
