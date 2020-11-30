@@ -7,14 +7,65 @@
     tools:context=".ProfileActivity"
     >
 
-    <GridView
-        android:id="@+id/myGrid"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageview_profile"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/profile_pic" />
+
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/user_name"
+        android:layout_below="@id/imageview_profile"
+        android:layout_centerHorizontal="true"
+        android:textSize="30sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        />
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="331dp"
+        android:layout_height="402dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="0dp"
-        android:columnWidth="100dp"
-        android:horizontalSpacing="10dp"
-        android:numColumns="auto_fit"
-        android:verticalSpacing="10dp" />
+        android:layout_marginBottom="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="131dp"
+                android:layout_height="131dp"
+                android:adjustViewBounds="true"
+                android:padding="2dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/monkey" />
+
+            <ImageView
+                android:layout_width="131dp"
+                android:layout_height="131dp"
+                android:adjustViewBounds="true"
+                android:padding="2dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/monkey6" />
+
+            <ImageView
+                android:layout_width="131dp"
+                android:layout_height="131dp"
+                android:adjustViewBounds="true"
+                android:padding="2dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/monkey5" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
 </RelativeLayout>

@@ -90,8 +90,7 @@ public class MainActivity extends AppCompatActivity {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //openSearchActivity();
-                selectedFragment = new SearchFragment();
+                openSearchActivity();
             }
         });
         settings = (LinearLayout) findViewById(R.id.menu_settings);
